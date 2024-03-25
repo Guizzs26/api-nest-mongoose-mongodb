@@ -8,6 +8,7 @@ import { Model } from 'mongoose';
 import { User } from 'src/users/models/user.model';
 import { sign } from 'jsonwebtoken';
 import { Request } from 'express';
+import { JwtPayload } from './models/jwt.payload.model';
 
 @Injectable()
 export class AuthService {
@@ -22,9 +23,9 @@ export class AuthService {
     });
   }
 
-  async validateUser(userId: string): Promise<User> {
+  async validateUser(jwtPayload: JwtPayload): Promise<User> {
     const user = await this.usersModel.findOne({
-      _id: userId,
+      _id: jwtPayload.userId,
     });
 
     if (!user) {
